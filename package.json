@@ -2,7 +2,10 @@
   "devDependencies": {
     "standard": "^17.1.0"
   },
-  "eslintConfig":{
+  "eslintConfig": {
     "extends": "./node_modules/standard/slintrc.json"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
   }
 }
