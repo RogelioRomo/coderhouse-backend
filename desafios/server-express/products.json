@@ -1,0 +1,29 @@
+[
+  {
+    "title": "Iphone 15 Pro Max",
+    "description": "256GB",
+    "price": 1800,
+    "thumbnail": "https://m.media-amazon.com/images/I/81fO2C9cYjL._AC_UF894,1000_QL80_.jpg",
+    "stock": 700,
+    "code": "zxc123",
+    "id": 1
+  },
+  {
+    "title": "Samsung Galaxy S23 Ultra",
+    "description": "512GB",
+    "price": 1500,
+    "thumbnail": "https://m.media-amazon.com/images/I/61dG6Y0U9rL._AC_UF894,1000_QL80_.jpg",
+    "stock": 350,
+    "code": "zxc124",
+    "id": 2
+  },
+  {
+    "title": "Xiaomi 12",
+    "description": "256GB",
+    "price": 600,
+    "thumbnail": "https://m.media-amazon.com/images/I/51x8Ql+mZLL._AC_SL1000_.jpg",
+    "stock": 800,
+    "code": "zxc125",
+    "id": 3
+  }
+]
