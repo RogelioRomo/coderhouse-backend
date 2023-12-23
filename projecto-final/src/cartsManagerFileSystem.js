@@ -39,6 +39,22 @@ class CartManager {
             console.log(error)
         }
     }
+    
+    async updateCart(cartId, updatedCart) {
+        try {
+            const carts = await this.readFile();
+            const index = carts.findIndex((cart) => cart.id === cartId);
+            if (index === -1) return 'Cart not found';
+
+            carts[index] = updatedCart;
+
+            await fs.writeFile(this.filePath, JSON.stringify(carts, null, 2), 'utf-8');
+            return 'Cart updated';
+        } catch (error) {
+            console.error('Error updating cart:', error.message);
+            return `Error updating cart: ${error.message}`;
+        }
+    }
 }
 
 module.exports = CartManager
