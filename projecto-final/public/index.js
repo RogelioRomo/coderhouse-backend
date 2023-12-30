@@ -1,0 +1,1 @@
+const socket = io() //config para poder usar socket del lado del cliente
