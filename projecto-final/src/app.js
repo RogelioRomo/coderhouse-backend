@@ -1,53 +1,29 @@
-const express = require('express')
-const productsRouter = require('./routers/products.routers.js')
-const cartsRouter = require('./routers/carts.routers.js')
-const handlebars = require('express-handlebars')
-const { Server: ServerIO } = require('socket.io')
-const ProductManager = require('./productManagerFileSystem.js')
-const product = new ProductManager()
+import express from 'express'
+import logger from 'morgan'
+import handlebars from 'express-handlebars'
+import { __dirname, uploader } from './utils.js'
+import appRouter from './routes/index.js'
+import { connectDB } from './config/config.js'
 
 const app = express()
 const PORT = 8080
+connectDB()
 
 app.use(express.json())
-app.use(express.urlencoded({extended: true}))
-app.use(express.static('public'))
+app.use(express.urlencoded({ extends: true }))
+app.use(logger('dev'))
 
 app.engine('handlebars', handlebars.engine())
-app.set('views', __dirname+'/views')
+app.set('views', __dirname + '/views')
 app.set('view engine', 'handlebars')
 
-const httpServer = app.listen(PORT, () => {
-    console.log(`Listening on port ${PORT}`)
+app.post('/file', uploader.single('myFile'), (req, res) => {
+  res.send('Image uploaded')
 })
 
-const io = new ServerIO(httpServer)
+app.use(appRouter)
 
-app.use('/api/products', productsRouter(io))
-app.use('/api/carts', cartsRouter)
-
-app.get('/', (req, res)=>{
-    const products = product.getProducts()
-    res.render('home.handlebars', {products})
-})
-app.get('/realtimeproducts', (req, res) => {
-    const products = product.getProducts()
-    res.render('realTimeProducts', { products })
-})
-
-io.on('connection', (socket) => {
-    const currentProducts = product.getProducts()
-    socket.emit('updateProducts', currentProducts)
-
-    socket.on('addProduct', (formData) => {
-        product.addProduct(formData)
-        const updatedProducts = product.getProducts()
-        io.emit('updateProducts', updatedProducts)
-    })
-
-    socket.on('deleteProduct', (formData) => {
-        product.deleteProduct(formData.productId)
-        const updatedProducts = product.getProducts()
-        io.emit('updateProducts', updatedProducts)
-    })
+app.listen(PORT, (err) => {
+  if (err) console.log(err)
+  console.log(`Server listening in port ${PORT}`)
 })

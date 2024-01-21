@@ -1,0 +1,57 @@
+<main>
+{{!< layouts/main}} <h1>Users Manager</h1>
+        <ul id="usersList">
+            {{#if users.length}}
+                {{#each users}}
+                <li>
+                    <strong>{{this.first_name}}</strong> - {{this.last_name}} - {{this.email}}
+                </li>
+                {{/each}}
+            {{else}}
+                <li>No users registered</li>
+            {{/if}}
+        </ul>
+
+        <form id="userForm" action="/api/users" method="post">
+            <label for="first_name">First Name:</label>
+            <input type="text" id="first_name" name="first_name" required>
+
+            <label for="last_name">Last Name:</label>
+            <input type="text" id="last_name" name="last_name" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit">Add user</button>
+        </form>
+            <form id="deleteUserForm" action="/api/user/:uid" method="delete">
+            <label for="userId">User ID:</label>
+            <input type="text" id="userId" name="userId" required>
+
+            <button type="button" onclick="submitDeleteForm()">Delete User</button>
+        </form>
+
+        <script>
+            function submitDeleteForm () {
+                const userId = document.getElementById('userId').value
+
+                fetch(`/api/users/${userId}`, {
+                    method: 'DELETE',
+                    headers: {
+                    'Content-Type': 'application/json'
+                    }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                    console.log('Success:', data)
+                    document.getElementById('userId').value = ''
+                    })
+                    .catch((error) => {
+                    console.error('Error:', error)
+                    })
+                }
+        </script>
+</main>

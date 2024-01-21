@@ -1,0 +1,106 @@
+<main>
+{{!< layouts/main}} <h1>Products Manager</h1>
+        <ul id="productList">
+            {{#if products.length}}
+                {{#each products}}
+                <li>
+                    <strong>{{this.title}}</strong> - {{this.description}} - {{this.stock}} - ${{this.price}}
+                </li>
+                {{/each}}
+            {{else}}
+                <li>No products available</li>
+            {{/if}}
+        </ul>
+        <section>
+            <form id="productForm" action="/api/products" method="post">
+                <label for="title">Title:</label>
+                <input type="text" id="title" name="title" required>
+
+                <label for="description">Description:</label>
+                <input type="text" id="description" name="description" required>
+
+                <label for="price">Price:</label>
+                <input type="number" id="price" name="price" required>
+
+                <label for="stock">Stock:</label>
+                <input type="number" id="stock" name="stock" required>
+
+                <label for="code">Code:</label>
+                <input type="text" id="code" name="code" required>
+
+                <label for="category">Category:</label>
+                <input type="text" id="category" name="category" required>
+
+                <label for="thumbnail">Thumbnnail:</label>
+                <input type="text" id="thumbnail" name="thumbnail" required>
+
+                <button type="submit">Add Product</button>
+            </form>
+        </section>
+        <section>
+            <h2>Add to cart</h2>
+            <form id="addToCartForm" action="/api/carts" method="post">
+                <label for="productIdToAdd">Product ID:</label>
+                <input type="text" id="productIdToAdd" name="productIdToAdd" required>
+
+                <label for="quantity">Quantity:</label>
+                <input type="number" id="quantity" name="quantity" required>
+
+                <button type="button" onclick="submitAddToCartForm()">Add to Cart</button>
+            </form>
+        </section>
+        <section>
+            <h2>Delete Product</h2>
+            <form id="deleteProductForm" action="/api/products/:pid" method="delete">
+                <label for="productId">Product ID:</label>
+                <input type="text" id="productId" name="productId" required>
+
+                <button type="button" onclick="submitDeleteForm()">Delete Product</button>
+            </form>
+        </section>
+        
+        <script>
+            function submitDeleteForm () {
+                const productId = document.getElementById('productId').value
+
+                fetch(`/api/products/${productId}`, {
+                    method: 'DELETE',
+                    headers: {
+                    'Content-Type': 'application/json'
+                    }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                    console.log('Success:', data)
+                    document.getElementById('productId').value = ''
+                    })
+                    .catch((error) => {
+                    console.error('Error:', error)
+                    })
+                }
+            function submitAddToCartForm() {
+                    const productIdToAdd = document.getElementById('productIdToAdd').value;
+                    const quantity = document.getElementById('quantity').value;
+
+                    fetch(`/api/carts`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        product: productIdToAdd,
+                        quantity: quantity
+                    })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Success:', data);
+                        document.getElementById('productIdToAdd').value = '';
+                        document.getElementById('quantity').value = '';
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                    });
+                }
+        </script>
+</main>
