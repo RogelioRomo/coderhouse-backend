@@ -7,17 +7,9 @@ export const usersRouter = Router()
 usersRouter
   .get('/', async (req, res) => {
     try {
-      const limit = req.query.limit
-      let users = await userService.getUsers({ isActive: true })
+      const users = await userService.getUsers({ isActive: true })
 
-      users = (!isNaN(Number(limit)) && Number(limit) > 0) ? users.slice(0, Number(limit)) : users
-      console.log(users)
-
-      res.render('users.handlebars', { users })
-      // res.json({
-      //   status: 'success',
-      //   result: users
-      // })
+      res.render('usersApi.handlebars', { users })
     } catch (error) {
       console.error(error)
       res.status(500).json({ error: error.message })

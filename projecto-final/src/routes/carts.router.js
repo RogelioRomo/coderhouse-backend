@@ -15,11 +15,7 @@ cartsRouter
       carts = (!isNaN(Number(limit)) && Number(limit) > 0) ? carts.slice(0, Number(limit)) : carts
       console.log(carts)
 
-      res.render('carts.handlebars', { carts })
-      // res.json({
-      //   status: 'success',
-      //   result: carts
-      // })
+      res.render('cartsApi.handlebars', { carts })
     } catch (error) {
       console.error(error)
       res.status(500).json({ error: error.message })
@@ -47,21 +43,48 @@ cartsRouter
       let cart = await cartService.getCartById({ isActive: true })
 
       if (!cart) {
-        cart = await cartService.createCart({ products: [] })
+        const newCart = {
+          products: [{
+            product,
+            quantity,
+            isActive: true
+          }]
+        }
+        cart = await cartService.createCart(newCart)
+      } else {
+        const updatedCart = {
+          $push: {
+            products: {
+              product,
+              quantity,
+              isActive: true
+            }
+          }
+        }
+        cart = await cartService.updateCart({ _id: cart._id }, updatedCart)
       }
 
-      cart.products.push({
-        product,
-        quantity,
-        isActive: true
-      })
+      console.log('cart:', cart)
 
-      const updatedProduct = await productService.updateProduct(
+      await productService.updateProduct(
         { _id: product },
         { $inc: { stock: -quantity } }
       )
 
-      const result = await cartService.updateCart({ _id: cart._id }, cart)
+      res.send({
+        status: 'success',
+        result: cart
+      })
+    } catch (error) {
+      console.error(error)
+      res.status(500).json({ error: error.message })
+    }
+  })
+  .put('/:cid', async (req, res) => {
+    try {
+      const { cid } = req.params
+      const product = req.body
+      const result = await cartService.updateCart(cid, product)
 
       res.send({
         status: 'success',
@@ -72,11 +95,11 @@ cartsRouter
       res.status(500).json({ error: error.message })
     }
   })
-  .put('/:cid', async (req, res) => {
+  .put('/:cid/products/:pid', async (req, res) => {
     try {
-      const { cid } = req.params
-      const { body } = req
-      const result = await cartService.updateCart({ _id: cid }, body)
+      const { cid, pid } = req.params
+      const { quantity } = req.body
+      const result = await cartService.updateCartQty(cid, pid, quantity)
 
       res.send({
         status: 'success',
@@ -90,7 +113,21 @@ cartsRouter
   .delete('/:cid', async (req, res) => {
     try {
       const { cid } = req.params
-      const result = await cartService.deleteCart({ _id: cid }, { isActive: false })
+      const result = await cartService.deleteCart(cid)
+
+      res.send({
+        status: 'success',
+        result
+      })
+    } catch (error) {
+      console.error(error)
+      res.status(500).json({ error: error.message })
+    }
+  })
+  .delete('/:cid/products/:pid', async (req, res) => {
+    try {
+      const { cid, pid } = req.params
+      const result = await cartService.deleteProductFromCart(cid, pid)
 
       res.send({
         status: 'success',

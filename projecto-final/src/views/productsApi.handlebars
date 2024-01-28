@@ -39,7 +39,7 @@
         </section>
         <section>
             <h2>Add to cart</h2>
-            <form id="addToCartForm" action="/api/carts" method="post">
+            <form id="addToCartForm" method="POST">
                 <label for="productIdToAdd">Product ID:</label>
                 <input type="text" id="productIdToAdd" name="productIdToAdd" required>
 
@@ -82,7 +82,7 @@
                     const productIdToAdd = document.getElementById('productIdToAdd').value;
                     const quantity = document.getElementById('quantity').value;
 
-                    fetch(`/api/carts`, {
+                    fetch('/api/carts', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

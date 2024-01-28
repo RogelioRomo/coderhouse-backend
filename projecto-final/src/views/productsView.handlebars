@@ -1,0 +1,52 @@
+<main>
+    {{!< layouts/main}}
+    <section>
+        <h1>Products</h1>
+        {{#each products}}
+            <p><strong>Product: </strong>{{this.title}} {{this.description}} - <strong>Stock: </strong>{{this.stock}} - <strong>Price: </strong>{{this.price}} </p>
+        {{/each}}
+        {{#if hasPrevPage}}
+            <a href="/products?pageQuery={{prevPage}}">Prev</a>
+        {{/if}}
+        <label>{{page}}</label>
+        {{#if hasNextPage}}
+            <a href="/products?pageQuery={{nextPage}}">Next</a>
+        {{/if}}
+
+        <form id="addToCartForm" action="/api/carts" method="post">
+                <label for="productIdToAdd">Product ID:</label>
+                <input type="text" id="productIdToAdd" name="productIdToAdd" required>
+
+                <label for="quantity">Quantity:</label>
+                <input type="number" id="quantity" name="quantity" required>
+
+                <button type="button" onclick="submitAddToCartForm()">Add to Cart</button>
+        </form>
+    </section>
+    <script>
+        function submitAddToCartForm() {
+                    const productIdToAdd = document.getElementById('productIdToAdd').value;
+                    const quantity = document.getElementById('quantity').value;
+
+                    fetch('/api/carts', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        product: productIdToAdd,
+                        quantity: quantity
+                    })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Success:', data);
+                        document.getElementById('productIdToAdd').value = '';
+                        document.getElementById('quantity').value = '';
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                    });
+                }
+    </script>
+</main>

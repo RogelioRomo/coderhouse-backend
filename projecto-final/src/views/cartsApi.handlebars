@@ -12,9 +12,10 @@
         {{else}}
             <li>No carts available</li>
         {{/if}}
+        </ul>
         <section>
             <h2>Delete Cart</h2>
-            <form id="deleteCartForm" action="/api/cart/:cid" method="delete">
+            <form id="deleteCartForm" action="/api/carts/:uid" method="DELETE">
                 <label for="cartId">Cart ID:</label>
                 <input type="text" id="cartId" name="cartId" required>
 

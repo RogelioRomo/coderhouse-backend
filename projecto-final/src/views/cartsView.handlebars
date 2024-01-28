@@ -1,0 +1,19 @@
+<main>
+    {{!< layouts/main}}
+    <section>
+        <h1>Carts</h1>
+        <ol id="cartList">
+        {{#if carts.length}}
+            {{#each carts}}
+                {{#each this.products}}
+                    <li>
+                        <strong>CartID: </strong> {{this._id}} - <strong>Product: </strong> {{this.product.title}} - <strong>Description: </strong> {{this.product.description}} - <strong>Price: </strong> {{this.product.price}} - <strong>Quantity: </strong>{{this.quantity}}
+                    </li>
+                {{/each}}
+            {{/each}}
+        {{else}}
+            <li>No carts available</li>
+        {{/if}}
+        </ol>
+    </section>
+</main>

@@ -7,17 +7,9 @@ export const productsRouter = Router()
 productsRouter
   .get('/', async (req, res) => {
     try {
-      const limit = req.query.limit
-      let products = await productService.getProducts({ isActive: true })
+      const products = await productService.getProducts({ isActive: true })
 
-      products = (!isNaN(Number(limit)) && Number(limit) > 0) ? products.slice(0, Number(limit)) : products
-      console.log(products)
-
-      res.render('products.handlebars', { products })
-      // res.json({
-      //   status: 'success',
-      //   result: products
-      // })
+      res.render('productsApi.handlebars', { products })
     } catch (error) {
       console.error(error)
       res.status(500).json({ error: error.message })

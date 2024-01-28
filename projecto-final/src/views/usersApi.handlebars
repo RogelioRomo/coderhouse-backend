@@ -11,28 +11,31 @@
                 <li>No users registered</li>
             {{/if}}
         </ul>
+        <section>
+            <form id="userForm" action="/api/users" method="post">
+                <label for="first_name">First Name:</label>
+                <input type="text" id="first_name" name="first_name" required>
 
-        <form id="userForm" action="/api/users" method="post">
-            <label for="first_name">First Name:</label>
-            <input type="text" id="first_name" name="first_name" required>
+                <label for="last_name">Last Name:</label>
+                <input type="text" id="last_name" name="last_name" required>
 
-            <label for="last_name">Last Name:</label>
-            <input type="text" id="last_name" name="last_name" required>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
 
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
 
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
+                <button type="submit">Add user</button>
+            </form>
+        </section>
+        <section>
+            <form id="deleteUserForm" action="/api/users/:uid" method="delete">
+                <label for="userId">User ID:</label>
+                <input type="text" id="userId" name="userId" required>
 
-            <button type="submit">Add user</button>
-        </form>
-            <form id="deleteUserForm" action="/api/user/:uid" method="delete">
-            <label for="userId">User ID:</label>
-            <input type="text" id="userId" name="userId" required>
-
-            <button type="button" onclick="submitDeleteForm()">Delete User</button>
-        </form>
+                <button type="button" onclick="submitDeleteForm()">Delete User</button>
+            </form>
+        </section>
 
         <script>
             function submitDeleteForm () {

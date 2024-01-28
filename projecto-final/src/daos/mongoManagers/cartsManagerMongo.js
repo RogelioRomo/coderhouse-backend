@@ -8,7 +8,9 @@ class CartsManagerMongo {
 
   // READ BY ID
   async getCartById (cid) {
-    return await cartsModel.findOne(cid)
+    const cart = await cartsModel.findOne(cid).lean()
+    return cart || null
+    // return cart ? [cart] : []
   }
 
   // CREATE
@@ -17,13 +19,34 @@ class CartsManagerMongo {
   }
 
   // UPDATE
-  async updateCart (cid, value) {
-    return await cartsModel.findByIdAndUpdate(cid, value)
+  async updateCart (cid, product) {
+    return await cartsModel.findByIdAndUpdate(
+      cid,
+      { $push: { products: product } },
+      { new: true }
+    )
+  }
+
+  // UPDATE only qty
+  async updateCartQty (cid, pid, quantity) {
+    return await cartsModel.findOneAndUpdate(
+      { _id: cid, 'products.product': pid },
+      { $set: { 'products.$.quantity': quantity } },
+      { new: true }
+    )
   }
 
   // DELETE (logical)
-  async deleteCart (cid, value) {
-    return await cartsModel.findByIdAndUpdate(cid, value)
+  async deleteCart (cid) {
+    return await cartsModel.findByIdAndDelete(cid)
+  }
+
+  async deleteProductFromCart (cid, pid) {
+    return await cartsModel.findByIdAndDelete(
+      cid,
+      { $pull: { products: pid } },
+      { new: true }
+    )
   }
 }
 

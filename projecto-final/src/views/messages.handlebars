@@ -1,0 +1,33 @@
+<main>
+{{!< layouts/main}}
+    <section>
+        <div>
+            <form id="messageForm" action="/api/messages" method="post">
+                <label for="user">User</label>
+                <input id="user" name="user" type="text" placeholder="Enter user">
+                <br>
+                <label for="message">Message</label>
+                <textarea id="message" name="message" placeholder="Enter message" cols="30" rows="10"></textarea>
+                <button type="submit">Send</button>
+            </form>
+        </div>
+        <div id="messages">
+            <h1>Chat</h1>
+            <ul id="messagesList">
+            {{#if messages.length}}
+                {{#each messages}}
+                <li>
+                    <strong>{{this.user}}</strong>
+                    <br>{{this.message}}
+                </li>
+                {{/each}}
+            {{else}}
+                <li>No Messages</li>
+            {{/if}}
+        </ul>
+        </div>
+    </section>
+    <script>
+
+    </script>
+</main>
