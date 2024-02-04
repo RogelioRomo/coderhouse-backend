@@ -1,7 +1,9 @@
 <main>
     {{!< layouts/main}}
-    <section>
         <h1>Products</h1>
+        {{#if user}}
+            <h1>Welcome, {{user.first_name}} {{user.last_name}}!</h1>
+        {{/if}}
         {{#each products}}
             <p><strong>Product: </strong>{{this.title}} {{this.description}} - <strong>Stock: </strong>{{this.stock}} - <strong>Price: </strong>{{this.price}} </p>
         {{/each}}
@@ -12,7 +14,7 @@
         {{#if hasNextPage}}
             <a href="/products?pageQuery={{nextPage}}">Next</a>
         {{/if}}
-
+    <section>
         <form id="addToCartForm" action="/api/carts" method="post">
                 <label for="productIdToAdd">Product ID:</label>
                 <input type="text" id="productIdToAdd" name="productIdToAdd" required>
@@ -21,6 +23,9 @@
                 <input type="number" id="quantity" name="quantity" required>
 
                 <button type="button" onclick="submitAddToCartForm()">Add to Cart</button>
+        </form>
+        <form id="logoutForm" action="/api/sessions/logout" method="post">
+            <button type="submit">Logout</button>
         </form>
     </section>
     <script>

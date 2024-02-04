@@ -70,7 +70,8 @@ router.get('/products', async (req, res) => {
     hasNextPage,
     prevPage,
     nextPage,
-    page
+    page,
+    user: req.user
   })
 })
 
