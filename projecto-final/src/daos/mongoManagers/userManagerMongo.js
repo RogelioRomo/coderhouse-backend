@@ -1,3 +1,4 @@
+import { createHash } from '../../hashBcrypt.js'
 import usersModel from '../../models/users.model.js'
 
 class UserManagerMongo {
@@ -9,11 +10,6 @@ class UserManagerMongo {
   // READ BY ID
   async getUserById (uid) {
     return await usersModel.findOne(uid)
-  }
-
-  // CREATE
-  async createUser (value) {
-    return await usersModel.create(value)
   }
 
   // UPDATE

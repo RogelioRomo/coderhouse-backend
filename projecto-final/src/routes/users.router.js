@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import UserManagerMongo from '../daos/mongoManagers/userManagerMongo.js'
+import passport from 'passport'
 
 const userService = new UserManagerMongo()
 export const usersRouter = Router()
@@ -23,20 +24,6 @@ usersRouter
       res.json({
         status: 'success',
         result: users
-      })
-    } catch (error) {
-      console.error(error)
-      res.status(500).json({ error: error.message })
-    }
-  })
-  .post('/', async (req, res) => {
-    try {
-      const { body } = req
-      const result = await userService.createUser(body)
-
-      res.send({
-        status: 'success',
-        result
       })
     } catch (error) {
       console.error(error)
@@ -71,4 +58,10 @@ usersRouter
       console.error(error)
       res.status(500).json({ error: error.message })
     }
+  })
+  .post('/', passport.authenticate('register'), async (req, res) => {
+    res.send({
+      status: 'success',
+      result: req.user
+    })
   })

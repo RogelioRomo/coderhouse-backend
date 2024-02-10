@@ -1,14 +1,14 @@
+import { isValidPassword } from '../../hashBcrypt.js'
 import usersModel from '../../models/users.model.js'
 
 class SessionsManagerMongo {
-  // READ
   async authUser (email, password) {
     const user = await usersModel.findOne({ email }).lean()
 
-    if (user && user.password === password) {
+    if (user && isValidPassword(password, user.password)) {
       return user
     } else {
-      return null
+      throw new Error('Invalid email or password')
     }
   }
 }

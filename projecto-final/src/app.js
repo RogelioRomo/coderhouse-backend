@@ -7,6 +7,8 @@ import { connectDB } from './config/config.js'
 import session from 'express-session'
 import cookieParser from 'cookie-parser'
 import MongoStore from 'connect-mongo'
+import passport from 'passport'
+import { initializePassport } from './config/passport.config.js'
 
 const app = express()
 const PORT = 8080
@@ -22,6 +24,10 @@ app.use(session({
   saveUninitialized: false,
   store: MongoStore.create({ mongoUrl: 'mongodb+srv://rogelioromo:hcNANrVJWq3xpg2h@projectbackend.ris7hha.mongodb.net/ecommerce?retryWrites=true&w=majority', mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true } })
 }))
+
+initializePassport()
+app.use(passport.initialize())
+app.use(passport.session())
 
 app.engine('handlebars', handlebars.engine())
 app.set('views', __dirname + '/views')
