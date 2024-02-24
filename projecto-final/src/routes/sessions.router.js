@@ -45,3 +45,12 @@ sessionsRouter
     req.session.user = req.user
     res.redirect('/products')
   })
+  .get('/current', async (req, res) => {
+    try {
+      const user = req.session.user
+      res.json({ user })
+    } catch (error) {
+      console.error(error)
+      res.status(500).json({ error: error.message })
+    }
+  })
