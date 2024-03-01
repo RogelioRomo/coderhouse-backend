@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import express from 'express'
 import logger from 'morgan'
 import handlebars from 'express-handlebars'
@@ -12,6 +13,8 @@ import { initializePassport } from './config/passport.config.js'
 
 const app = express()
 const PORT = 8080
+const SECRET = process.env.SECRET
+const MONGO_URL = process.env.MONGO_URL
 connectDB()
 
 app.use(express.json())
@@ -19,10 +22,10 @@ app.use(express.urlencoded({ extends: true }))
 app.use(logger('dev'))
 app.use(cookieParser())
 app.use(session({
-  secret: 'secr3t0',
+  secret: SECRET,
   resave: true,
   saveUninitialized: false,
-  store: MongoStore.create({ mongoUrl: 'mongodb+srv://rogelioromo:hcNANrVJWq3xpg2h@projectbackend.ris7hha.mongodb.net/ecommerce?retryWrites=true&w=majority', mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true } })
+  store: MongoStore.create({ mongoUrl: MONGO_URL })
 }))
 
 initializePassport()

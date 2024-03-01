@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import passport from 'passport'
 import local from 'passport-local'
 import usersModel from '../models/users.model.js'
@@ -5,6 +6,9 @@ import { createHash, isValidPassword } from '../hashBcrypt.js'
 import GithubStrategy from 'passport-github2'
 
 const LocalStrategy = local.Strategy
+const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID
+const GITHUB_SECRET = process.env.GITHUB_SECRET
+const GITHUB_CALLBACK_URL = process.env.GITHUB_CALLBACK_URL
 
 export const initializePassport = () => {
   passport.use('register', new LocalStrategy({
@@ -58,9 +62,9 @@ export const initializePassport = () => {
   })
 
   passport.use('github', new GithubStrategy({
-    clientID: 'Iv1.78f4f4f5626a732e',
-    clientSecret: 'f1cadbe78c9a47c5deddc3b82450c15876f8b57a',
-    callbackURL: 'http://localhost:8080/api/sessions/githubcallback'
+    clientID: GITHUB_CLIENT_ID,
+    clientSecret: GITHUB_SECRET,
+    callbackURL: GITHUB_CALLBACK_URL
   }, async (accessToken, refreshToken, profile, done) => {
     console.log('profile', profile)
     try {
