@@ -1,7 +1,7 @@
 import { createHash } from '../../hashBcrypt.js'
-import usersModel from '../../models/users.model.js'
+import usersModel from './models/users.model.js'
 
-class UserManagerMongo {
+class UserDaoMongo {
   // READ
   async getUsers (value) {
     return await usersModel.find(value).lean()
@@ -23,4 +23,4 @@ class UserManagerMongo {
   }
 }
 
-export default UserManagerMongo
+export default UserDaoMongo

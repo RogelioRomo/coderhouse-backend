@@ -1,8 +1,8 @@
 import 'dotenv/config'
 import passport from 'passport'
 import local from 'passport-local'
-import usersModel from '../models/users.model.js'
-import { createHash, isValidPassword } from '../hashBcrypt.js'
+import usersModel from '../daos/Mongo/models/users.model.js'
+import { createHash, isValidPassword } from '../utils/hashBcrypt.js'
 import GithubStrategy from 'passport-github2'
 
 const LocalStrategy = local.Strategy

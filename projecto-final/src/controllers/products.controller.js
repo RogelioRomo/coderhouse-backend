@@ -1,8 +1,8 @@
-import ProductsManagerMongo from '../daos/mongoManagers/productsManagerMongo'
+import ProductsDaoMongo from '../daos/Mongo/productsDao.mongo.js'
 
 class ProductsController {
   constructor () {
-    this.productService = new ProductsManagerMongo()
+    this.productService = new ProductsDaoMongo()
   }
 
   getProducts = async (req, res) => {

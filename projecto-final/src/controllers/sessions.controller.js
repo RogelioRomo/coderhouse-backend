@@ -1,9 +1,9 @@
-import UserManagerMongo from '../daos/mongoManagers/userManagerMongo'
+import UserDaoMongo from '../daos/Mongo/userDao.mongo.js'
 import { Session } from 'express-session'
 
 class SessionsController {
   constructor () {
-    this.userService = new UserManagerMongo()
+    this.userService = new UserDaoMongo()
   }
 
   login = async (req, res) => {

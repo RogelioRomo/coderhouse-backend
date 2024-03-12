@@ -1,6 +1,6 @@
-import messagesModel from '../../models/messages.model.js'
+import messagesModel from './models/messages.model.js'
 
-class MessagesManagerMongo {
+class MessagesDaoMongo {
   async getMessages (value) {
     return await messagesModel.find(value).lean()
   }
@@ -14,4 +14,4 @@ class MessagesManagerMongo {
   }
 }
 
-export default MessagesManagerMongo
+export default MessagesDaoMongo

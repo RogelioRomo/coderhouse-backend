@@ -1,6 +1,6 @@
-import productsModel from '../../models/products.model.js'
+import productsModel from './models/products.model.js'
 
-class ProductsManagerMongo {
+class ProductsDaoMongo {
   // READ
   async getProducts (value) {
     return await productsModel.find(value).lean()
@@ -27,4 +27,4 @@ class ProductsManagerMongo {
   }
 }
 
-export default ProductsManagerMongo
+export default ProductsDaoMongo

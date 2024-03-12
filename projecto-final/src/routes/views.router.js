@@ -1,8 +1,8 @@
 /* eslint-disable multiline-ternary */
 import { Router } from 'express'
-import usersModel from '../models/users.model.js'
-import productsModel from '../models/products.model.js'
-import cartsModel from '../models/carts.model.js'
+import usersModel from '../daos/Mongo/models/users.model.js'
+import productsModel from '../daos/Mongo/models/products.model.js'
+import cartsModel from '../daos/Mongo/models/carts.model.js'
 
 const router = Router()
 

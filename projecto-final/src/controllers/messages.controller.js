@@ -1,8 +1,8 @@
-import MessagesManagerMongo from '../daos/mongoManagers/messagesManagerMongo.js'
+import MessagesDaoMongo from '../daos/Mongo/messagesDao.mongo.js'
 
 class MessagesController {
   constructor () {
-    this.messagesService = new MessagesManagerMongo()
+    this.messagesService = new MessagesDaoMongo()
   }
 
   getMessages = async (req, res) => {

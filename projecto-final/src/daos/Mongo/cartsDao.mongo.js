@@ -1,6 +1,6 @@
-import cartsModel from '../../models/carts.model.js'
+import cartsModel from './models/carts.model.js'
 
-class CartsManagerMongo {
+class CartsDaoMongo {
   // READ
   async getCarts (value) {
     return await cartsModel.find(value).lean()
@@ -50,4 +50,4 @@ class CartsManagerMongo {
   }
 }
 
-export default CartsManagerMongo
+export default CartsDaoMongo

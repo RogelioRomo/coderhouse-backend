@@ -1,7 +1,7 @@
-import { isValidPassword } from '../../hashBcrypt.js'
-import usersModel from '../../models/users.model.js'
+import { isValidPassword } from '../../utils/passwords.js'
+import usersModel from './models/users.model.js'
 
-class SessionsManagerMongo {
+class SessionsDaoMongo {
   async authUser (email, password) {
     const user = await usersModel.findOne({ email }).lean()
 
@@ -12,4 +12,4 @@ class SessionsManagerMongo {
     }
   }
 }
-export default SessionsManagerMongo
+export default SessionsDaoMongo

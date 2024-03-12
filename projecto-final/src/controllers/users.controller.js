@@ -1,8 +1,8 @@
-import UserManagerMongo from '../daos/mongoManagers/userManagerMongo'
+import UserDaoMongo from '../daos/Mongo/userDao.mongo.js'
 
 class UserController {
   constructor () {
-    this.userService = new UserManagerMongo()
+    this.userService = new UserDaoMongo()
   }
 
   getUsers = async (req, res) => {
