@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import passport from 'passport'
-import SessionsController from '../controllers/sessions.controller'
+import SessionsController from '../controllers/sessions.controller.js'
 
 export const sessionsRouter = Router()
 const {

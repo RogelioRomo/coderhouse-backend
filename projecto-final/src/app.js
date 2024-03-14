@@ -9,6 +9,7 @@ import cookieParser from 'cookie-parser'
 import MongoStore from 'connect-mongo'
 import passport from 'passport'
 import { initializePassport } from './config/passport.config.js'
+import { connectDB } from './config/config.js'
 
 const app = express()
 const PORT = process.env.PORT
@@ -25,6 +26,7 @@ app.use(session({
   saveUninitialized: false,
   store: MongoStore.create({ mongoUrl: MONGO_URL })
 }))
+connectDB()
 
 initializePassport()
 app.use(passport.initialize())

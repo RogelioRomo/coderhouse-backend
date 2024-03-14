@@ -8,7 +8,7 @@ class CartsDaoMongo {
 
   // READ BY ID
   async getCartById (cid) {
-    const cart = await cartsModel.findOne(cid).lean()
+    const cart = await cartsModel.findOne({ _id: cid }).lean()
     return cart || null
     // return cart ? [cart] : []
   }
@@ -47,6 +47,10 @@ class CartsDaoMongo {
       { $pull: { products: pid } },
       { new: true }
     )
+  }
+
+  async getActiveCart () {
+    return await cartsModel.findOne({ isActive: true })
   }
 }
 

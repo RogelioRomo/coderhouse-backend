@@ -1,4 +1,3 @@
-import { createHash } from '../../hashBcrypt.js'
 import usersModel from './models/users.model.js'
 
 class UserDaoMongo {

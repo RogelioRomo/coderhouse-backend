@@ -1,5 +1,6 @@
 import UserDaoMongo from '../daos/Mongo/userDao.mongo.js'
 import { Session } from 'express-session'
+import UserDto from '../dto/userDto.js'
 
 class SessionsController {
   constructor () {
@@ -48,7 +49,8 @@ class SessionsController {
   currentUser = async (req, res) => {
     try {
       const user = req.session.user
-      res.json({ user })
+      const userDto = new UserDto(user)
+      res.json({ user: userDto })
     } catch (error) {
       console.error(error)
       res.status(500).json({ error: error.message })

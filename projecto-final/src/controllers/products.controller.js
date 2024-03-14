@@ -19,7 +19,7 @@ class ProductsController {
   getProductById = async (req, res) => {
     try {
       const { pid } = req.params
-      const products = await this.productService.getProductById({ _id: pid })
+      const products = await this.productService.getProductById(pid)
 
       res.json({
         status: 'success',
@@ -51,6 +51,22 @@ class ProductsController {
       const { pid } = req.params
       const { body } = req
       const result = await this.productService.updateProduct({ _id: pid }, body)
+
+      res.send({
+        status: 'success',
+        result
+      })
+    } catch (error) {
+      console.error(error)
+      res.status(500).json({ error: error.message })
+    }
+  }
+
+  updateProductStock = async (req, res) => {
+    try {
+      const { pid } = req.params
+      const { quantity } = req.body
+      const result = await this.productService.updateProductStock(pid, quantity)
 
       res.send({
         status: 'success',

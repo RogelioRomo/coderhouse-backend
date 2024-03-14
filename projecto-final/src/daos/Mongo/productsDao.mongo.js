@@ -8,7 +8,7 @@ class ProductsDaoMongo {
 
   // READ BY ID
   async getProductById (pid) {
-    return await productsModel.findOne(pid)
+    return await productsModel.findOne({ _id: pid })
   }
 
   // CREATE
@@ -19,6 +19,21 @@ class ProductsDaoMongo {
   // UPDATE
   async updateProduct (pid, value) {
     return await productsModel.findByIdAndUpdate(pid, value)
+  }
+
+  async updateProductStock (pid, quantity) {
+    const product = await this.getProductById(pid)
+    if (!product) {
+      throw new Error('Product not found')
+    }
+
+    // Update the stock
+    product.stock += quantity
+    if (product.stock < 0) {
+      product.stock = 0
+    }
+
+    return await productsModel.findByIdAndUpdate(pid, { stock: product.stock })
   }
 
   // DELETE (logical)

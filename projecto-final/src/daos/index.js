@@ -5,6 +5,7 @@ let ProductDao
 let CartsDao
 let SessionDao
 let MessagesDao
+let TicketDao
 
 switch (configObject.persistence) {
   case 'FILE':
@@ -15,8 +16,6 @@ switch (configObject.persistence) {
     break
 
   default:{
-    connectDB()
-
     const UserDaoMongo = (import('./Mongo/userDao.mongo.js')).default
     UserDao = UserDaoMongo
 
@@ -32,8 +31,11 @@ switch (configObject.persistence) {
     const MessagesDaoMongo = (import('./Mongo/messagesDao.mongo.js')).default
     MessagesDao = MessagesDaoMongo
 
+    const TicketDaoMongo = (import('./Mongo/ticketDao.mongo.js')).default
+    TicketDao = TicketDaoMongo
+
     break
   }
 }
 
-export { UserDao, ProductDao, CartsDao, SessionDao, MessagesDao }
+export { UserDao, ProductDao, CartsDao, SessionDao, MessagesDao, TicketDao }
