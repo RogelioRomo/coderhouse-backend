@@ -4,6 +4,9 @@ import local from 'passport-local'
 import usersModel from '../daos/Mongo/models/users.model.js'
 import { createHash, isValidPassword } from '../utils/hashBcrypt.js'
 import GithubStrategy from 'passport-github2'
+import CustomError from '../errors/customError.js'
+import { generatgeUserErrorInfo } from '../errors/info.js'
+import { EErrors } from '../errors/enum.js'
 
 const LocalStrategy = local.Strategy
 const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID
@@ -18,6 +21,19 @@ export const initializePassport = () => {
     const { first_name, last_name, email, age } = req.body
     try {
       const user = await usersModel.findOne({ email })
+
+      if (!first_name || !last_name || !email) {
+        CustomError.createError({
+          name: 'User Error',
+          cause: generatgeUserErrorInfo({
+            first_name,
+            last_name,
+            email
+          }),
+          message: 'Error while creating user, missing or invalid properties. Check the cause for more information.',
+          code: EErrors.INVALID_TYPE_ERROR
+        })
+      }
 
       if (user) return done(null, false)
 

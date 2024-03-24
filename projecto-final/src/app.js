@@ -10,6 +10,7 @@ import MongoStore from 'connect-mongo'
 import passport from 'passport'
 import { initializePassport } from './config/passport.config.js'
 import { connectDB } from './config/config.js'
+import { handleErrors } from './middleware/errors/index.js'
 
 const app = express()
 const PORT = process.env.PORT
@@ -41,6 +42,8 @@ app.post('/file', uploader.single('myFile'), (req, res) => {
 })
 
 app.use(appRouter)
+
+app.use(handleErrors)
 
 app.listen(PORT, (err) => {
   if (err) console.log(err)
